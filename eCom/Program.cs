@@ -1,7 +1,25 @@
+using eCom.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Configuration;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(GetConnectionString(builder.Configuration)));
+string GetConnectionString(IConfiguration configuration)
+{
+    return configuration.GetConnectionString("DefaultConnectionString");
+}
+
+//Action<SqlServerDbContextOptionsBuilder>? GetConnectionString(string v)
+//{
+//    ///throw new NotImplementedException();
+//    return configuration.GetConnectionString("DefaultConnectionString");
+//}
 
 var app = builder.Build();
 
