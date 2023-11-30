@@ -1,4 +1,5 @@
 using eCom.Data;
+using eCom.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IActorsService, ActorsService>();
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(GetConnectionString(builder.Configuration)));
 string GetConnectionString(IConfiguration configuration)
@@ -20,6 +22,7 @@ string GetConnectionString(IConfiguration configuration)
 //    ///throw new NotImplementedException();
 //    return configuration.GetConnectionString("DefaultConnectionString");
 //}
+
 
 var app = builder.Build();
 
