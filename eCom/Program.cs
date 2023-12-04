@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IActorsService, ActorsService>();
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(GetConnectionString(builder.Configuration)));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(GetConnectionString(builder.Configuration)), ServiceLifetime.Scoped);
 string GetConnectionString(IConfiguration configuration)
 {
     return configuration.GetConnectionString("DefaultConnectionString");
@@ -30,12 +30,20 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    // Apply migrations
-    var dbContext = services.GetRequiredService<AppDbContext>();
-    dbContext.Database.Migrate();
+    try
+    {
+        // Apply migrations
+        var dbContext = services.GetRequiredService<AppDbContext>();
+        dbContext.Database.Migrate();
 
-    // Seed data
-    AppDbInitializer.Seed(app);
+        // Seed data
+        AppDbInitializer.Seed(app);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error during database initialization: {ex.Message}");
+    }
+
 }
 
 // Configure the HTTP request pipeline.
