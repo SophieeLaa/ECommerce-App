@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<Actor>
+﻿@model IEnumerable<Actor>
 
 @{
     ViewData["Title"] = "List of Actors";
@@ -9,12 +8,11 @@
         <table class="table">
             <thead>
                 <tr class="text-center">
-                  <th>@Html.DisplayNameFor(model => model.ProfilePictureURL)</th>
-                  <th>@Html.DisplayNameFor(model => model.FullName)</th>
-                  <th>@Html.DisplayNameFor(model => model.Bio)</th>
-                  <th>Actions</th>
-
-              </tr>
+                    <th>@Html.DisplayNameFor(model => model.ProfilePictureURL)</th>
+                    <th>@Html.DisplayNameFor(model => model.FullName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Bio)</th>
+                    <th>Actions</th>
+                </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
@@ -41,7 +39,8 @@
     </div>
 </div>
 
-<div style="position: fixed; right: 25px; bottom: 25px;" class="text-white">
+<div style="position: fixed; right: 25px; bottom: 25px; z-index: 1000;" class="text-white">
     <a asp-controller="Actors" asp-action="Create" class="btn btn-success">
-        <i class="bi bi-plus-circle"></i>Add New</a>
+        <i class="bi bi-plus-circle"></i>Add New
+    </a>
 </div>

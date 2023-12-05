@@ -1,6 +1,5 @@
 ﻿using eCom.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace eCom.Data.Services
 {
@@ -17,8 +16,8 @@ namespace eCom.Data.Services
         {
             try
             {
-               await _context.Actors.AddAsync(actor);
-               await _context.SaveChangesAsync();
+                await _context.Actors.AddAsync(actor);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -27,9 +26,11 @@ namespace eCom.Data.Services
             }
         }
 
-            public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Actors.FirstOrDefaultAsync(n => n.Id == id);
+            _context.Actors.Remove(result);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Actor>> GetAllAsync()
@@ -40,7 +41,7 @@ namespace eCom.Data.Services
 
         public async Task<Actor> GetByIdAsync(int id)
         {
-           var result = await _context.Actors.FirstOrDefaultAsync(n => n.Id == id);
+            var result = await _context.Actors.FirstOrDefaultAsync(n => n.Id == id);
             return result;
         }
 
