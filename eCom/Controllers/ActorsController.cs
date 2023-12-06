@@ -1,8 +1,6 @@
-﻿using eCom.Data;
-using eCom.Data.Services;
+﻿using eCom.Data.Services;
 using eCom.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace eCom.Controllers
 {
@@ -35,6 +33,24 @@ namespace eCom.Controllers
             await _service.AddAsync(actor);
             return RedirectToAction(nameof(Index));
         }
+        //delete
+        public async Task<IActionResult> Delete(int id)
+        {
+            var actorDetails = await _service.GetByIdAsync(id);
+            if (actorDetails == null) return View("NotFound");
+            return View(actorDetails);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfiguration(int id)
+        {
+            var actorDetails = await _service.GetByIdAsync(id);
+            if (actorDetails == null) return View("NotFound");
+
+            await _service.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
+
 
         public async Task<IActionResult> Details(int id)
         {
@@ -42,6 +58,7 @@ namespace eCom.Controllers
             if (actorDetails == null) return View("NotFound");
             return View(actorDetails);
         }
+
         //edit
         public async Task<IActionResult> Edit(int id)
         {
@@ -60,21 +77,6 @@ namespace eCom.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //delete
-        public async Task<IActionResult> Delete(int id)
-        {
-            var actorDetails = await _service.GetByIdAsync(id);
-            if (actorDetails == null) return View("NotFound");
-            return View(actorDetails);
-        }
-        [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfiguration(int id)
-        {
-            var actorDetails = await _service.GetByIdAsync(id);
-            if (actorDetails == null) return View("NotFound");
 
-            await _service.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
-        }
     }
 }
